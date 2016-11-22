@@ -1,0 +1,108 @@
+#include <iostream>
+#include <conio.h>
+#include<windows.h>
+
+using namespace std;
+
+
+
+void mostrar(char **tab);
+void llenar(char **tab,int lis[], int lon, int cx,int cy);
+void mover(char **tab,int lis[],int x, int y, int lon, int cx, int cy);
+
+
+int main()
+{
+
+    char **tablero;
+    tablero = new char *[30];
+    for(int i=0;i<30;i++){
+        tablero[i]= new char[30];
+    }
+    for(int i=0;i<30;i++){
+        for(int j=0;j<30;j++){
+            tablero[i][j]='.';
+        }
+    }
+
+
+    int caby=22, cabx=20, coly=0, colx=0;
+
+
+
+
+
+    int posixy[60];
+    posixy[0]=20;
+    posixy[1]=20;
+    posixy[2]=21;
+    posixy[3]=20;
+    posixy[4]=caby;
+    posixy[5]=cabx;
+
+    int tam=6;
+
+    mover(tablero,posixy,cabx,caby,tam,colx, coly);
+
+
+    return 0;
+}
+
+
+///////////////////////////////////////////////////////
+
+void mostrar(char **tab){
+    system("cls");
+    for(int i=0;i<30;i++){
+        cout<<endl;
+        for(int j=0; j<30;j++){
+            cout<<*(*(tab+i)+j);
+        }
+    }
+
+
+}
+
+//////////////////////////////////////////////////////////
+
+void llenar(char **tab,int lis[], int lon, int cx,int cy){
+
+    for(int i=0;i<lon;i=i+2){
+
+        tab[lis[i]][lis[i+1]]='o';
+    }
+    tab[cy][cx]='.';
+
+}
+
+
+////////////////////////////////////////////////////////////
+
+void mover(char **tab, int lis[],int x, int y, int lon, int cx, int cy){
+    char c;
+    c=getch();
+    if(c=='w'){
+        y=y-1;
+    }
+    if(c=='s'){
+        y=y+1;
+    }
+    if(c=='a'){
+        x=x-1;
+    }
+    if(c=='d'){
+        x=x+1;
+    }
+    cy=lis[0];
+    cx=lis[1];
+    for(int i=0;i<(lon-2);i++){
+        lis[i]=lis[i+2];
+    }
+    lis[lon-1]=x;
+    lis[lon-2]=y;
+
+    llenar(tab,lis, lon, cx, cy);
+    mostrar(tab);
+    mover(tab, lis,x, y, lon, cx, cy);
+
+}
